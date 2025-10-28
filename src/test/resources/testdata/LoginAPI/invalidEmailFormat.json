@@ -1,0 +1,7 @@
+[
+  {
+    "email": "invalid_email",
+    "password": "1234",
+    "role": "ADMIN"
+  }
+]
