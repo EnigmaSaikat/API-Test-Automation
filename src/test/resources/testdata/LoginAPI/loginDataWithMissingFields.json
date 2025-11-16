@@ -1,0 +1,22 @@
+[
+  {
+    "email": "vdadmin@yopmail.com",
+    "password": "",
+    "role": ""
+  },
+  {
+    "email": "",
+    "password": "VDadmin@123",
+    "role": ""
+  },
+  {
+    "email": "",
+    "password": "",
+    "role": ""
+  },
+  {
+    "email": null,
+    "password": null,
+    "role": null
+  }
+]
