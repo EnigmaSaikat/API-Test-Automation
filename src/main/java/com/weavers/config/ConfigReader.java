@@ -19,32 +19,25 @@ public class ConfigReader {
         }
     }
 
-    public static String getProperty(String key) {
-        return properties.getProperty(key);
-    }
-
     public static String getBaseUrl() {
         return properties.getProperty("BASE_URL");
     }
-
     public static String getApiVersion() {
         return properties.getProperty("API_VERSION");
     }
+    public static String getAuthServices() { return properties.getProperty("AUTH_SERVICES"); }
+
 
     public static String getLoginEndpoint() { return properties.getProperty("LOGIN_ENDPOINT");}
-
-    public static String getAdminAddCategory() {
-        return properties.getProperty("ADD_CATEGORY_ENDPOINT");
+    public static String getRegisterEndpoint() {
+        return properties.getProperty("REGISTER_ENDPOINT");
     }
-    
-
-
-
-    public static String getLogoutEndpoint() {
-        return properties.getProperty("LOGOUT_ENDPOINT");
+    public static String getRequestOTP() {
+        return properties.getProperty("REQUEST_OTP_ENDPOINT");
     }
 
-    public static String getLoginTestDataPath() {
-        return properties.getProperty("LOGIN_TEST_DATA_PATH");
-    }
+
+    public static String getLoginTestDataPath() { return properties.getProperty("LOGIN_TEST_DATA_PATH");}
+    public static String getRegisterANewUserTestDataPath() { return properties.getProperty("REGISTER_A_NEW_USER_DATA_PATH");}
+    public static String getRequestOTPDataPath() { return properties.getProperty("REQUEST_OTP_TEST_DATA_PATH");}
 }

@@ -4,6 +4,10 @@ import com.weavers.config.ConfigReader;
 import com.weavers.pojo.LoginAPI.request.LoginRequest;
 import com.weavers.pojo.LoginAPI.response.LoginResponse;
 //import com.weavers.pojo.LoginAPI.response.LogoutResponse;
+import com.weavers.pojo.RegisterANewUserAPI.request.RegisterANewUserRequest;
+import com.weavers.pojo.RegisterANewUserAPI.response.RegisterANewUserResponse;
+import com.weavers.pojo.RequestOTPAPI.request.RequestOTPRequest;
+import com.weavers.pojo.RequestOTPAPI.response.RequestOTPResponse;
 import com.weavers.utils.RestUtils;
 import com.weavers.utils.TokenManager;
 import io.restassured.response.Response;
@@ -14,8 +18,11 @@ public class AuthService {
 
     private static final String BASE_URL = ConfigReader.getBaseUrl();
     private static final String API_VERSION = ConfigReader.getApiVersion();
+    private static final String AUTH_SERVICES = ConfigReader.getAuthServices();
 
-    private static final String loginEndpoint = BASE_URL + "/" + API_VERSION + ConfigReader.getLoginEndpoint();
+    private static final String loginEndpoint = BASE_URL + "/" + API_VERSION + "/" + AUTH_SERVICES + ConfigReader.getLoginEndpoint();
+    private static final String registerEndpoint = BASE_URL + "/" + API_VERSION + "/" + AUTH_SERVICES + ConfigReader.getRegisterEndpoint();
+    private static final String requestOTPEndpoint = BASE_URL + "/" + API_VERSION + "/" + AUTH_SERVICES + ConfigReader.getRequestOTP();
 
     /*
      * Login API
@@ -45,34 +52,39 @@ public class AuthService {
     public static LoginResponse loginAndStoreToken(LoginRequest loginRequest) {
         LoginResponse loginResponse = loginAndGetResponse(loginRequest);
         TokenManager.getInstance().setTokens(loginResponse);
-        System.out.println("✓ Login successful and tokens stored for reuse");
+        System.out.println("Login successful and tokens stored for reuse");
         return loginResponse;
     }
 
     /*
-     * Logout API
-     */
-//    public static Response logout(String accessToken) {
-//        String endpoint = BASE_URL + "/" + API_VERSION + ConfigReader.getLogoutEndpoint();
-//        Map<String, String> headers = RestUtils.getBearerTokenHeader(accessToken);
-//        return RestUtils.postRequest(endpoint, "", headers);
-//    }
+    * Register new user API
+    */
+    public static Response registerNewUser(RegisterANewUserRequest registerANewUserRequest) {
+        return RestUtils.postRequest(registerEndpoint, registerANewUserRequest);
+    }
 
     /*
-     * Logout and get Response as POJO
+     * Register a new user Response as POJO
      */
-//    public static LogoutResponse logoutAndGetResponse(String accessToken) {
-//        Response response = logout(accessToken);
-//        return response.as(LogoutResponse.class);
-//    }
+    public static RegisterANewUserResponse RegisterANewUserAndGetResponse(RegisterANewUserRequest registerANewUserRequest) {
+        Response response = registerNewUser(registerANewUserRequest);
+        return response.as(RegisterANewUserResponse.class);
+    }
 
     /*
-     * Logout using stored token from TokenManager
+     * Request OTP API
      */
-//    public static Response logoutWithStoredToken() {
-//        String accessToken = TokenManager.getInstance().getAccessToken();
-//        return logout(accessToken);
-//    }
+    public static Response requestOTP(RequestOTPRequest requestOTPRequest) {
+        return RestUtils.postRequest(requestOTPEndpoint, requestOTPRequest);
+    }
+
+    /*
+     * Request OTP Response as POJO
+     */
+    public static RequestOTPResponse RequestOTPAndGetResponse(RequestOTPRequest requestOTPRequest) {
+        Response response = requestOTP(requestOTPRequest);
+        return response.as(RequestOTPResponse.class);
+    }
 
     /*
      * Get Access Token from Login Response

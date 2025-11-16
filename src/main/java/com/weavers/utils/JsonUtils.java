@@ -21,7 +21,6 @@ public class JsonUtils {
             Object obj = parser.parse(new FileReader(filePath));
             return (JSONArray) obj;
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException("Failed to read JSON file: " + filePath);
         }
     }
@@ -35,7 +34,6 @@ public class JsonUtils {
             Object obj = parser.parse(new FileReader(filePath));
             return (JSONObject) obj;
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException("Failed to read JSON file: " + filePath);
         }
     }
@@ -47,7 +45,6 @@ public class JsonUtils {
         try {
             return objectMapper.writeValueAsString(obj);
         } catch (IOException e) {
-            e.printStackTrace();
             throw new RuntimeException("Failed to convert object to JSON string");
         }
     }
@@ -59,7 +56,6 @@ public class JsonUtils {
         try {
             return objectMapper.readValue(jsonString, clazz);
         } catch (IOException e) {
-            e.printStackTrace();
             throw new RuntimeException("Failed to convert JSON string to object");
         }
     }

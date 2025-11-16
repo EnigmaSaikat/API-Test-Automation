@@ -75,7 +75,7 @@ public class TokenManager {
         return refreshToken;
     }
 
-    /**
+    /*
      * Get complete LoginResponse
      */
     public LoginResponse getLoginResponse() {

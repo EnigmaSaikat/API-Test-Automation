@@ -1,4 +1,4 @@
-package com.weavers.tests;
+package com.weavers.base;
 
 import com.weavers.config.ConfigReader;
 import io.restassured.RestAssured;
