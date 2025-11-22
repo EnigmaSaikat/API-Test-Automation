@@ -8,9 +8,7 @@ import org.json.simple.JSONObject;
 import org.testng.annotations.DataProvider;
 
 public class registerANewUserApiTestDataProvider {
-    /*
-     * DataProvider for Valid Register A New User Test
-     */
+
     @DataProvider(name = "validRegisterANewUserData")
     public Object[][] getValidRegisterANewUserData() {
         String filePath = ConfigReader.getRegisterANewUserTestDataPath() + "RegisterANewUserData.json";

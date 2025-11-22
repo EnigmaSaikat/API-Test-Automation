@@ -12,9 +12,6 @@ public class JsonUtils {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    /**
-     * Read JSON data from file and return as JSONArray
-     */
     public static JSONArray readJsonArray(String filePath) {
         JSONParser parser = new JSONParser();
         try {
@@ -25,9 +22,6 @@ public class JsonUtils {
         }
     }
 
-    /**
-     * Read JSON data from file and return as JSONObject
-     */
     public static JSONObject readJsonObject(String filePath) {
         JSONParser parser = new JSONParser();
         try {
@@ -38,9 +32,6 @@ public class JsonUtils {
         }
     }
 
-    /**
-     * Convert Object to JSON String
-     */
     public static String toJsonString(Object obj) {
         try {
             return objectMapper.writeValueAsString(obj);
@@ -49,9 +40,6 @@ public class JsonUtils {
         }
     }
 
-    /**
-     * Convert JSON String to Object
-     */
     public static <T> T fromJsonString(String jsonString, Class<T> clazz) {
         try {
             return objectMapper.readValue(jsonString, clazz);
@@ -59,10 +47,7 @@ public class JsonUtils {
             throw new RuntimeException("Failed to convert JSON string to object");
         }
     }
-
-    /**
-     * Get JSONObject from JSONArray by index
-     */
+    
     public static JSONObject getJsonObjectFromArray(JSONArray jsonArray, int index) {
         if (jsonArray != null && index < jsonArray.size()) {
             return (JSONObject) jsonArray.get(index);

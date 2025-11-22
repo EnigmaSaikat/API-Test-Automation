@@ -9,9 +9,6 @@ import java.util.Map;
 
 public class RestUtils {
 
-    /**
-     * Base Request Specification
-     */
     public static RequestSpecification getBaseRequest() {
         return RestAssured.given()
                 .contentType(ContentType.JSON)
@@ -19,9 +16,6 @@ public class RestUtils {
                 .log().all();
     }
 
-    /**
-     * GET Request
-     */
     public static Response getRequest(String endpoint) {
         return getBaseRequest()
                 .when()
@@ -32,9 +26,6 @@ public class RestUtils {
                 .response();
     }
 
-    /**
-     * GET Request with headers
-     */
     public static Response getRequest(String endpoint, Map<String, String> headers) {
         return getBaseRequest()
                 .headers(headers)
@@ -46,9 +37,6 @@ public class RestUtils {
                 .response();
     }
 
-    /**
-     * POST Request with body
-     */
     public static Response postRequest(String endpoint, Object body) {
         return getBaseRequest()
                 .body(body)
@@ -60,9 +48,6 @@ public class RestUtils {
                 .response();
     }
 
-    /**
-     * POST Request with body and headers
-     */
     public static Response postRequest(String endpoint, Object body, Map<String, String> headers) {
         return getBaseRequest()
                 .headers(headers)
@@ -75,9 +60,6 @@ public class RestUtils {
                 .response();
     }
 
-    /**
-     * PUT Request
-     */
     public static Response putRequest(String endpoint, Object body, Map<String, String> headers) {
         return getBaseRequest()
                 .headers(headers)
@@ -90,9 +72,6 @@ public class RestUtils {
                 .response();
     }
 
-    /**
-     * DELETE Request
-     */
     public static Response deleteRequest(String endpoint, Map<String, String> headers) {
         return getBaseRequest()
                 .headers(headers)
@@ -104,9 +83,6 @@ public class RestUtils {
                 .response();
     }
 
-    /**
-     * Get Bearer Token Header
-     */
     public static Map<String, String> getBearerTokenHeader(String token) {
         return Map.of("Authorization", "Bearer " + token);
         

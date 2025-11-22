@@ -9,9 +9,6 @@ import org.testng.annotations.DataProvider;
 
 public class loginApiTestDataProvider {
 
-    /**
-     * DataProvider for Login Test Cases
-     */
     @DataProvider(name = "loginData")
     public Object[][] getLoginData() {
         String filePath = ConfigReader.getLoginTestDataPath() + "loginData.json";
@@ -33,9 +30,6 @@ public class loginApiTestDataProvider {
         return data;
     }
 
-    /**
-     * DataProvider for Valid Login
-     */
     @DataProvider(name = "validLoginData")
     public Object[][] getValidLoginData() {
         String filePath = ConfigReader.getLoginTestDataPath() + "loginData.json";
@@ -52,9 +46,6 @@ public class loginApiTestDataProvider {
         return new Object[][]{{loginRequest}};
     }
 
-    /**
-     * DataProvider for Login Test with Invalid Cases
-     */
     @DataProvider(name = "loginInvalidTestData")
     public Object[][] getLoginInvalidTestData() {
         String filePath = ConfigReader.getLoginTestDataPath() + "invalidLoginData.json";
@@ -76,9 +67,6 @@ public class loginApiTestDataProvider {
         return data;
     }
 
-    /**
-     * DataProvider for Login Test with missing fields Cases
-     */
     @DataProvider(name = "LoginMissingFieldsTestData")
     public Object[][] getLoginMissingFieldsTestData() {
         String filePath = ConfigReader.getLoginTestDataPath() + "loginDataWithMissingFields.json";
@@ -100,9 +88,6 @@ public class loginApiTestDataProvider {
         return data;
     }
 
-    /**
-     * DataProvider for Valid Login
-     */
     @DataProvider(name = "invalidEmailFormatLoginData")
     public Object[][] getInvalidEmailFormatLoginData() {
         String filePath = ConfigReader.getLoginTestDataPath() + "invalidEmailFormat.json";
@@ -119,9 +104,6 @@ public class loginApiTestDataProvider {
         return new Object[][]{{loginRequest}};
     }
 
-    /**
-     * DataProvider for Valid Login
-     */
     @DataProvider(name = "EmptyJsonLoginData")
     public Object[][] getEmptyJsonLoginData() {
         String filePath = ConfigReader.getLoginTestDataPath() + "emptyBody.json";

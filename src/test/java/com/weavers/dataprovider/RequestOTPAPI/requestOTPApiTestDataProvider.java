@@ -8,9 +8,7 @@ import org.json.simple.JSONObject;
 import org.testng.annotations.DataProvider;
 
 public class requestOTPApiTestDataProvider {
-    /*
-     * DataProvider for Valid Register A New User Test
-     */
+
     @DataProvider(name = "validRequestOTPData")
     public Object[][] getValidRequestOTPData() {
         String filePath = ConfigReader.getRequestOTPDataPath() + "RequestOTPData.json";
