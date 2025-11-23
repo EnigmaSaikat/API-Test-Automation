@@ -1,12 +1,17 @@
 package com.weavers.config;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
 public class ConfigReader {
     private static final Properties properties;
-    private static final String CONFIG_FILE_PATH = "src/test/resources/config.properties";
+    private static final String CONFIG_FILE_PATH = System.getProperty("user.dir")
+            + File.separator + "src"
+            + File.separator + "test"
+            + File.separator + "resources"
+            + File.separator + "config.properties";;
 
     static {
         try {
