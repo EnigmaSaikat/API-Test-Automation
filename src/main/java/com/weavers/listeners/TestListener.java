@@ -1,4 +1,5 @@
 package com.weavers.listeners;
+import com.weavers.utils.LoggerUtils;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -7,41 +8,46 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onStart(ITestContext context) {
-        System.out.println("========================================");
-        System.out.println("Test Suite Started: " + context.getName());
-        System.out.println("========================================");
+        LoggerUtils.info("========================================");
+        LoggerUtils.info("Test Suite Started: " + context.getName());
+        LoggerUtils.info("========================================");
         
     }
 
     @Override
     public void onFinish(ITestContext context) {
-        System.out.println("========================================");
-        System.out.println("Test Suite Finished: " + context.getName());
-        System.out.println("========================================");
+        LoggerUtils.info("========================================");
+        LoggerUtils.info("Test Suite Finished: " + context.getName());
+        LoggerUtils.info("========================================");
        
     }
 
     @Override
     public void onTestStart(ITestResult result) {
-        System.out.println("\n>>> Test Started: " + result.getMethod().getMethodName());
-      
+        LoggerUtils.info("========================================");
+        LoggerUtils.startTestCase(result.getMethod().getMethodName());
+        LoggerUtils.info("========================================");
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        System.out.println("Test Passed: " + result.getMethod().getMethodName());
-      
+        LoggerUtils.info("Test Passed: " + result.getMethod().getMethodName());
+        LoggerUtils.endTestCase(result.getMethod().getMethodName());
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        System.out.println("Test Failed: " + result.getMethod().getMethodName());
+        LoggerUtils.error("Test Failed: " + result.getMethod().getMethodName(), result.getThrowable());
+        LoggerUtils.error("Reason: ", result.getThrowable());
+        LoggerUtils.endTestCase(result.getMethod().getMethodName());
        
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        System.out.println("Test Skipped: " + result.getMethod().getMethodName());
-       
+        LoggerUtils.warn("Test Skipped: " + result.getName());
+        if (result.getThrowable() != null) {
+            LoggerUtils.warn("Reason: " + result.getThrowable().getMessage());
+        }
     }
 }

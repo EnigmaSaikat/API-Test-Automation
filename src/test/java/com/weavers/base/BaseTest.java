@@ -17,7 +17,7 @@ public class BaseTest {
 
     @BeforeMethod
     public void beforeMethod(Method method) {
-        System.out.println("\n========================================");
+        System.out.println("========================================");
         System.out.println("Starting Test: " + method.getName());
         System.out.println("========================================");
     }

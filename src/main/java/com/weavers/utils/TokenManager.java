@@ -2,87 +2,96 @@ package com.weavers.utils;
 
 import com.weavers.pojo.LoginAPI.response.LoginResponse;
 
+
 public class TokenManager {
 
     private static TokenManager instance;
-    private String accessToken;
-    private String refreshToken;
-    private LoginResponse loginResponse;
-    private long tokenCreatedTime;
+    private final ThreadLocal<String> accessToken = new ThreadLocal<>();
+    private final ThreadLocal<String> refreshToken = new ThreadLocal<>();
+    private final ThreadLocal<LoginResponse> loginResponse = new ThreadLocal<>();
+    private final ThreadLocal<Long> tokenCreatedTime = new ThreadLocal<>();
 
-    // Private constructor for Singleton
     private TokenManager() {
     }
 
-    public static TokenManager getInstance() {
+    public static synchronized TokenManager getInstance() {
         if (instance == null) {
-            synchronized (TokenManager.class) {
-                if (instance == null) {
-                    instance = new TokenManager();
-                }
-            }
+            instance = new TokenManager();
         }
         return instance;
     }
 
-    public void setTokens(LoginResponse loginResponse) {
-        this.loginResponse = loginResponse;
-        if (loginResponse != null && loginResponse.getData() != null
-                && loginResponse.getData().getToken() != null) {
-            this.accessToken = loginResponse.getData().getToken().getAccess();
-            this.refreshToken = loginResponse.getData().getToken().getRefresh();
-            this.tokenCreatedTime = System.currentTimeMillis();
-            System.out.println("Tokens stored in TokenManager");
+    public void setTokens(LoginResponse response) {
+        // Store the full response object
+        this.loginResponse.set(response);
+
+        if (response != null && response.getData() != null && response.getData().getToken() != null) {
+            // Store specific tokens
+            this.accessToken.set(response.getData().getToken().getAccess());
+            this.refreshToken.set(response.getData().getToken().getRefresh());
+            this.tokenCreatedTime.set(System.currentTimeMillis());
+
+            LoggerUtils.info("===== Tokens stored in TokenManager for Thread: " + Thread.currentThread().getId()+" =====");        } else {
+            LoggerUtils.error("===== Failed to store tokens: LoginResponse or Data was null =====");
         }
     }
 
-    public void setTokens(String accessToken, String refreshToken) {
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
-        this.tokenCreatedTime = System.currentTimeMillis();
-        System.out.println("✓ Tokens manually stored in TokenManager");
+    public void setTokens(String access, String refresh) {
+        this.accessToken.set(access);
+        this.refreshToken.set(refresh);
+        this.tokenCreatedTime.set(System.currentTimeMillis());
+        LoggerUtils.info("✓ Tokens manually stored for Thread: " + Thread.currentThread().getId());
     }
 
     public String getAccessToken() {
-        if (accessToken == null || accessToken.isEmpty()) {
-            throw new RuntimeException("Access Token is not available. Please login first.");
+        if (accessToken.get() == null) {
+            LoggerUtils.error("===== Access Token is missing in TokenManager. =====");
+            // Optionally throw exception if you want to fail fast
+            // throw new RuntimeException("Access Token is not available.");
         }
-        return accessToken;
+        return accessToken.get();
     }
 
     public String getRefreshToken() {
-        if (refreshToken == null || refreshToken.isEmpty()) {
-            throw new RuntimeException("Refresh Token is not available. Please login first.");
+        if (refreshToken.get() == null) {
+            LoggerUtils.warn("===== Refresh Token requested but not found. =====");
         }
-        return refreshToken;
+        return refreshToken.get();
     }
 
-    /*
-     * Get complete LoginResponse
-     */
     public LoginResponse getLoginResponse() {
-        return loginResponse;
+        return loginResponse.get();
     }
-
 
     public boolean hasToken() {
-        return accessToken != null && !accessToken.isEmpty();
+        return accessToken.get() != null && !accessToken.get().isEmpty();
     }
 
     public boolean isTokenExpired(long durationInMillis) {
         if (!hasToken()) {
+            LoggerUtils.debug("===== Check failed: No token found in manager. =====");
             return true;
         }
+
+        if (tokenCreatedTime.get() == null) {
+            return true;
+        }
+
         long currentTime = System.currentTimeMillis();
-        return (currentTime - tokenCreatedTime) > durationInMillis;
+        long diff = currentTime - tokenCreatedTime.get();
+
+        LoggerUtils.debug("===== Token Age: " + diff + "ms | Max Duration: " + durationInMillis + "ms" + " =====");
+
+        return diff > durationInMillis;
     }
 
     public void clearTokens() {
-        this.accessToken = null;
-        this.refreshToken = null;
-        this.loginResponse = null;
-        this.tokenCreatedTime = 0;
-        System.out.println("✓ Tokens cleared from TokenManager");
+        accessToken.remove();
+        refreshToken.remove();
+        loginResponse.remove();
+        tokenCreatedTime.remove();
+
+        LoggerUtils.info("===== Tokens cleared from TokenManager =====");
     }
 
     public String getBearerTokenHeader() {
@@ -90,11 +99,13 @@ public class TokenManager {
     }
 
     public void printTokenInfo() {
-        System.out.println("===== Token Info =====");
-        System.out.println("Access Token: " + (accessToken != null ? accessToken.substring(0, Math.min(20, accessToken.length())) + "..." : "null"));
-        System.out.println("Refresh Token: " + (refreshToken != null ? refreshToken.substring(0, Math.min(20, refreshToken.length())) + "..." : "null"));
-        System.out.println("Token Created: " + tokenCreatedTime);
-        System.out.println("Has Token: " + hasToken());
-        System.out.println("=====================");
+        String access = accessToken.get();
+        String refresh = refreshToken.get();
+
+        LoggerUtils.debug("===== Token Info (Thread " + Thread.currentThread().getId() + ") =====");
+        LoggerUtils.debug("Access Token: " + (access != null ? access.substring(0, Math.min(10, access.length())) + "..." : "null"));
+        LoggerUtils.debug("Refresh Token: " + (refresh != null ? refresh.substring(0, Math.min(10, refresh.length())) + "..." : "null"));
+        LoggerUtils.debug("Has Token: " + hasToken());
+        LoggerUtils.debug("==================================");
     }
 }
