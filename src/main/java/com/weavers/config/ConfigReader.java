@@ -1,24 +1,16 @@
 package com.weavers.config;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
 public class ConfigReader {
-    private static final Properties properties;
-    private static final String CONFIG_FILE_PATH = System.getProperty("user.dir")
-            + File.separator + "src"
-            + File.separator + "test"
-            + File.separator + "resources"
-            + File.separator + "config.properties";;
+    private static final Properties properties = new Properties();
+    private static final String CONFIG_FILE_PATH = System.getProperty("config.file", "src/test/resources/config.properties");
 
     static {
-        try {
-            FileInputStream fis = new FileInputStream(CONFIG_FILE_PATH);
-            properties = new Properties();
+        try (FileInputStream fis = new FileInputStream(CONFIG_FILE_PATH)){
             properties.load(fis);
-            fis.close();
         } catch (IOException e) {
             throw new RuntimeException("Failed to load config.properties file");
         }
