@@ -1,5 +1,6 @@
 package com.weavers.services;
 
+import com.weavers.endpoints.Routes;
 import com.weavers.config.ConfigReader;
 import com.weavers.pojo.LoginAPI.request.LoginRequest;
 import com.weavers.pojo.LoginAPI.response.LoginResponse;
@@ -16,21 +17,12 @@ import io.restassured.response.Response;
 
 public class AuthService {
 
-    private static final String BASE_URL = ConfigReader.getBaseUrl();
-    private static final String API_VERSION = ConfigReader.getApiVersion();
-    private static final String AUTH_SERVICES = ConfigReader.getAuthServices();
-
-    private static final String loginEndpoint = BASE_URL + "/" + API_VERSION + "/" + AUTH_SERVICES + ConfigReader.getLoginEndpoint();
-    private static final String registerEndpoint = BASE_URL + "/" + API_VERSION + "/" + AUTH_SERVICES + ConfigReader.getRegisterEndpoint();
-    private static final String requestOTPEndpoint = BASE_URL + "/" + API_VERSION + "/" + AUTH_SERVICES + ConfigReader.getRequestOTP();
-
-
     public static Response login(LoginRequest loginRequest) {
-        return RestUtils.postRequest(loginEndpoint, loginRequest);
+        return RestUtils.postRequest(Routes.LOGIN_URI, loginRequest);
     }
 
     public static Response wrongMethodLogin() {
-        return RestUtils.getRequest(loginEndpoint);
+        return RestUtils.getRequest(Routes.LOGIN_URI);
     }
 
     public static LoginResponse loginAndGetResponse(LoginRequest loginRequest) {
@@ -46,7 +38,7 @@ public class AuthService {
     }
 
     public static Response registerNewUser(RegisterANewUserRequest registerANewUserRequest) {
-        return RestUtils.postRequest(registerEndpoint, registerANewUserRequest);
+        return RestUtils.postRequest(Routes.REGISTER_URI, registerANewUserRequest);
     }
 
     public static RegisterANewUserResponse RegisterANewUserAndGetResponse(RegisterANewUserRequest registerANewUserRequest) {
@@ -55,7 +47,7 @@ public class AuthService {
     }
 
     public static Response requestOTP(RequestOTPRequest requestOTPRequest) {
-        return RestUtils.postRequest(requestOTPEndpoint, requestOTPRequest);
+        return RestUtils.postRequest(Routes.REQUEST_OTP_URI, requestOTPRequest);
     }
 
     public static RequestOTPResponse RequestOTPAndGetResponse(RequestOTPRequest requestOTPRequest) {
