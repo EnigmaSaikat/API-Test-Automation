@@ -20,7 +20,7 @@ public class LoginTest extends BaseTest {
     @Description("Validates successful login with valid credentials and verifies response structure including user data and JWT tokens")
     @TmsLink("TC-LOGIN-001")
     @Issue("AUTH-123")
-    @Test(description = "Validating the Response data", dataProvider = "validLoginData", dataProviderClass = loginApiTestDataProvider.class, priority = 1, retryAnalyzer = MyRetry.class)
+    @Test(description = "Validating the Response data", dataProvider = "validLoginData", dataProviderClass = loginApiTestDataProvider.class, priority = 1)
     public void testLoginSuccess(LoginRequest loginRequest) {
         try{
             LoggerUtils.info("Testing Login with: " + loginRequest);
@@ -47,7 +47,7 @@ public class LoginTest extends BaseTest {
         }
     }
 
-    @Test(description = "Test token allows access to protected endpoint", dataProvider = "loginData", dataProviderClass = loginApiTestDataProvider.class, priority = 2, retryAnalyzer = MyRetry.class)
+    @Test(description = "Test token allows access to protected endpoint", dataProvider = "loginData", dataProviderClass = loginApiTestDataProvider.class, priority = 2)
     public void testLoginWithAllData(LoginRequest loginRequest) {
         LoggerUtils.info("Testing Login with: " + loginRequest);
         Response response = AuthService.wrongMethodLogin();
@@ -76,7 +76,7 @@ public class LoginTest extends BaseTest {
         }
     }
 
-    @Test(description = "Verify login is rejected for invalid combinations of email, password, and role", dataProvider = "loginInvalidTestData", dataProviderClass = loginApiTestDataProvider.class, priority = 3, retryAnalyzer = MyRetry.class)
+    @Test(description = "Verify login is rejected for invalid combinations of email, password, and role", dataProvider = "loginInvalidTestData", dataProviderClass = loginApiTestDataProvider.class, priority = 3)
     public void testShouldNotAllowLoginWithInvalidCredentials(LoginRequest loginRequest) {
         try {
             LoggerUtils.info("Testing Login with: " + loginRequest);
@@ -87,7 +87,7 @@ public class LoginTest extends BaseTest {
         }
     }
 
-    @Test(description = "Verify login is rejected for missing email field", dataProvider = "LoginMissingFieldsTestData", dataProviderClass = loginApiTestDataProvider.class, priority = 4, retryAnalyzer = MyRetry.class)
+    @Test(description = "Verify login is rejected for missing email field", dataProvider = "LoginMissingFieldsTestData", dataProviderClass = loginApiTestDataProvider.class, priority = 4)
     public void testShouldNotAllowLoginWithMissingEmail(LoginRequest loginRequest) {
         try {
             LoggerUtils.info("Testing Login with: " + loginRequest);
@@ -98,7 +98,7 @@ public class LoginTest extends BaseTest {
         }
     }
 
-    @Test(description = "Verify login is rejected for invalid email format", dataProvider = "invalidEmailFormatLoginData", dataProviderClass = loginApiTestDataProvider.class, priority = 5, retryAnalyzer = MyRetry.class)
+    @Test(description = "Verify login is rejected for invalid email format", dataProvider = "invalidEmailFormatLoginData", dataProviderClass = loginApiTestDataProvider.class, priority = 5 )
     public void testLoginInvalidFormat(LoginRequest loginRequest) {
         try {
             LoggerUtils.info("Testing Login with: " + loginRequest);
@@ -109,7 +109,7 @@ public class LoginTest extends BaseTest {
         }
     }
 
-    @Test(description = "Verify login is rejected for unverified user", dataProvider = "EmptyJsonLoginData", dataProviderClass = loginApiTestDataProvider.class, priority = 6, retryAnalyzer = MyRetry.class)
+    @Test(description = "Verify login is rejected for unverified user", dataProvider = "EmptyJsonLoginData", dataProviderClass = loginApiTestDataProvider.class, priority = 6 )
     public void testShouldNotAllowLoginForUnverifiedUser(LoginRequest loginRequest) {
         try {
             LoggerUtils.info("Testing Login with: " + loginRequest);
@@ -120,7 +120,7 @@ public class LoginTest extends BaseTest {
         }
     }
 
-    @Test(description = "Verify login user name and password is very long", dataProvider = "LoginJsonWithVeryLoginData", dataProviderClass = loginApiTestDataProvider.class, priority = 6, retryAnalyzer = MyRetry.class)
+    @Test(description = "Verify login user name and password is very long", dataProvider = "LoginJsonWithVeryLoginData", dataProviderClass = loginApiTestDataProvider.class, priority = 7 )
     public void testLoginWithVeryLongEmailAndPassword(LoginRequest loginRequest) {
         try {
             LoggerUtils.info("Testing Login with: " + loginRequest);

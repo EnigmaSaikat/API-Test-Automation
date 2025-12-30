@@ -17,7 +17,7 @@ public class RegisterANewUserTest extends BaseTest {
     @Description("This test case validates the Register A New User API with valid data")
     @TmsLink("TC-LOGIN-001")
     @Issue("AUTH-123")
-    @Test(description = "Validating the Response data", dataProvider = "validRegisterANewUserData", dataProviderClass = registerANewUserApiTestDataProvider.class, priority = 1, retryAnalyzer = MyRetry.class)
+    @Test(description = "Validating the Response data", dataProvider = "validRegisterANewUserData", dataProviderClass = registerANewUserApiTestDataProvider.class, priority = 1 )
     public void testRegisterANewUser(RegisterANewUserRequest registerANewUserRequest) {
         try {
             System.out.println("Testing Login with: " + registerANewUserRequest);

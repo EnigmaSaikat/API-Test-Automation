@@ -19,7 +19,7 @@ public class RequestOTPTest extends BaseTest {
     @Description("This test case validates the Request OTP API with valid data")
     @TmsLink("TC-REQOTP-001")
     @Issue("AUTH-256")
-    @Test(description = "Validating the Request OTP data", dataProvider = "validRequestOTPData", dataProviderClass = requestOTPApiTestDataProvider.class, priority = 1, retryAnalyzer = MyRetry.class)
+    @Test(description = "Validating the Request OTP data", dataProvider = "validRequestOTPData", dataProviderClass = requestOTPApiTestDataProvider.class, priority = 1 )
     public void testRequestOTP(RequestOTPRequest requestOTPRequest) {
        System.out.println("Testing Login with: " + requestOTPRequest);
         Response response = AuthService.requestOTP(requestOTPRequest);
