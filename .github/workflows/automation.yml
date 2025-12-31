@@ -4,6 +4,11 @@ on:
     branches: [ main ]
   pull_request:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -29,7 +34,12 @@ jobs:
       - name: Run tests
         run: mvn -B -Dmaven.repo.local=$HOME/.m2/repository clean test
 
+      - name: Ensure Allure results folder exists
+        if: always()
+        run: mkdir -p target/allure-results
+
       - name: Upload Allure results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-results
@@ -37,9 +47,10 @@ jobs:
 
   report:
     needs: test
+    if: always()
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout (full history)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
